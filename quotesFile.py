@@ -7,47 +7,45 @@
 #  if the tweet allows space, needs to include the hashtag with the category
 
 #NOTE: try to figure out if you can make a thread 
-# Import pandas
+
 import pandas as pd
+import xlrd
 from random import randrange
 
-QUOTE_COL = 1
-AUTHOR_COL = 0
+def parseDataCSV():
 
-def parseData():
-    # Load csv
-    datafile = pd.read_csv("example.csv")
-    
-    # To open Workbook
-    excelWkbk = xlrd.open_workbook(datafile)
-    sheet = excelWkbk.sheet_by_index(0)
-    
-    # For row 0 and column 0
-    quoteRow = randrange(0, 1665)
+    datafile = pd.read_csv("quotes.csv")
+    QUOTE_COL = 1
+    AUTHOR_COL = 0
+
+    quoteRow = randrange(0, 1663)
     print(quoteRow)
-    print(sheet.cell_value(quoteRow, QUOTE_COL))
 
-    # generate random value for the row 
-    # quotes in the excel database start at row value 4 and end at 45578
-    # print(randrange(4, 45578))
+    quote = datafile.iloc[quoteRow, QUOTE_COL]
+    author = datafile.iloc[quoteRow, AUTHOR_COL]
 
-    quote = sheet.cell_value(quoteRow, QUOTE_COL)
-    author = sheet.cell_value(quoteRow, AUTHOR_COL)
-    
     tweet = quote + " - " + author
-
     print(tweet)
 
-    hashtag(tweet)
+    print(len(" #Motivating"))
+
+    # hashtag(tweet)
 
 
 def hashtag(tweetStr):
+
     newTweet = tweetStr + " #Motivating"
-    # if (tweetStr + " #" + )
+    size = len(newTweet)
+
+    if (size <= 292 and size > 280):
+        return tweetStr
+    else: 
+        return newTweet
+
     print(newTweet)
 
 
-parseData()
+parseDataCSV()
 
 
 # PREVIOUS DATAFILE WORK:
@@ -58,7 +56,7 @@ parseData()
 # AUTHOR_COL = 1
 # CATEGORY_COL = 2
 
-# def parseData():
+# def parseMemeData():
 #     # Give the location of the file
 #     datafile = ("MotivationalQuotesDatabase.xlsx")
     

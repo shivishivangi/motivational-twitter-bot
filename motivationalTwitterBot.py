@@ -17,6 +17,8 @@
 import tweepy
 import datetime
 
+# need to make this a user input function 
+
 consumer_key = 'UAEJdRp7QchFYpCUo5mfYoKpV'
 consumer_secret = 'Gw2Rz6RQpXwLwmDcQgkaDrfgW6GSjm6G6Z37lXseDnGOpMoRXu'
 access_token = '1331845784631975937-I6G0229akgSI6glrdaSyqaEeu8UqfX'
