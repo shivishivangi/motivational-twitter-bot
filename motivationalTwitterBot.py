@@ -14,6 +14,12 @@
 #   like, retweet, and reply to people with the #MotivationalQuotes (make it possible to change this) hashtag
 #   method to like a certain number of random tweets with a certain hashtag
 
+#limitations:
+#  needs to be less than 280 characters
+#  if the tweet allows space, needs to include the hashtag with the category
+
+#NOTE: try to figure out if you can make a thread 
+
 import tweepy
 import datetime
 
@@ -53,3 +59,15 @@ def publictweet():
     print(tweettopublish)
 
 publictweet()
+
+def hashtag(tweetStr):
+
+    newTweet = tweetStr + " #Motivating"
+    size = len(newTweet)
+
+    if (size <= 292 and size > 280):
+        return tweetStr
+    else: 
+        return newTweet
+
+    print(newTweet)

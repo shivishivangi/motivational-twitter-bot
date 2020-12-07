@@ -1,97 +1,79 @@
 # quotesFile.py
 
-#takes a motivational quote database and picks a random quote to tweet
-
-#limitations:
-#  needs to be less than 280 characters
-#  if the tweet allows space, needs to include the hashtag with the category
-
-#NOTE: try to figure out if you can make a thread 
+# takes a motivational quote database and picks a random quote to tweet
 
 import pandas as pd
 import xlrd
 from random import randrange
 
-def parseDataCSV():
+def getDataCSV():
+
+    # returns a random quote from quotes.csv
 
     datafile = pd.read_csv("quotes.csv")
     QUOTE_COL = 1
     AUTHOR_COL = 0
 
     quoteRow = randrange(0, 1663)
-    print(quoteRow)
+    # print(quoteRow)
 
     quote = datafile.iloc[quoteRow, QUOTE_COL]
     author = datafile.iloc[quoteRow, AUTHOR_COL]
 
     tweet = quote + " - " + author
-    print(tweet)
+    # print(tweet)
 
-    print(len(" #Motivating"))
-
-    # hashtag(tweet)
+    return tweet
 
 
-def hashtag(tweetStr):
+def getMemeData():
 
-    newTweet = tweetStr + " #Motivating"
+    # returns a random quote from MotivationalQuotesDatabase.xlsx (doesn't actually have inspiring quotes...)
+
+    QUOTE_COL = 0 
+    AUTHOR_COL = 1
+    CATEGORY_COL = 2
+
+    datafile = ("MotivationalQuotesDatabase.xlsx") 
+    excelWkbk = xlrd.open_workbook(datafile)
+    sheet = excelWkbk.sheet_by_index(0)
+
+    quoteRow = randrange(4, 45578)
+    # print(quoteRow)
+    # print(sheet.cell_value(quoteRow, QUOTE_COL))
+
+    quote = sheet.cell_value(quoteRow, QUOTE_COL)
+    author = sheet.cell_value(quoteRow, AUTHOR_COL)
+    category = sheet.cell_value(quoteRow, CATEGORY_COL)
+    
+    tweet = quote + " - " + author
+
+    # print(tweet)
+
+    tweet = hashtag(tweet, category)
+
+    # print(tweet)
+
+    return tweet
+    
+
+def hashtag(tweetStr, category):
+
+    # adds category hashtag to tweet if it does not exceed 280 characters 
+
+    newTweet = tweetStr + " #" + category
     size = len(newTweet)
+    addSize = 280 + len(category)
 
-    if (size <= 292 and size > 280):
+    if (size <= addSize and size > 280):
         return tweetStr
     else: 
         return newTweet
 
-    print(newTweet)
 
+#Run python quotesFile.py to test 
 
-parseDataCSV()
+# getDataCSV()
+# getMemeData()
 
-
-# PREVIOUS DATAFILE WORK:
-
-# import xlrd
-
-# QUOTE_COL = 0 
-# AUTHOR_COL = 1
-# CATEGORY_COL = 2
-
-# def parseMemeData():
-#     # Give the location of the file
-#     datafile = ("MotivationalQuotesDatabase.xlsx")
-    
-#     # To open Workbook
-#     excelWkbk = xlrd.open_workbook(datafile)
-#     sheet = excelWkbk.sheet_by_index(0)
-    
-#     # For row 0 and column 0
-#     quoteRow = randrange(4, 45578)
-#     print(quoteRow)
-#     print(sheet.cell_value(quoteRow, QUOTE_COL))
-
-#     # generate random value for the row 
-#     # quotes in the excel database start at row value 4 and end at 45578
-#     # print(randrange(4, 45578))
-
-#     quote = sheet.cell_value(quoteRow, QUOTE_COL)
-#     author = sheet.cell_value(quoteRow, AUTHOR_COL)
-#     category = sheet.cell_value(quoteRow, CATEGORY_COL)
-    
-#     tweet = quote + " - " + author
-
-#     print(tweet)
-
-#     hashtag(tweet, category, quoteRow)
-
-
-# def hashtag(tweetStr, tag, row):
-#     newTweet = tweetStr + " #" + tag
-#     # if (tweetStr + " #" + )
-#     print(newTweet)
-
-
-# def correctLength(tweetStr):
-#     length = len(tweetStr)
-#     if (length <)
-#     return True
 
