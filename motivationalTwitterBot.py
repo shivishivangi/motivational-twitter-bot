@@ -54,13 +54,16 @@ def publictweet():
 
     print(len(tweettopublish))
 
-    api.update_status(tweettopublish)
+    # api.update_status(tweettopublish)
     #uncomment when ready to publish tweet
+
     print(tweettopublish)
 
-publictweet()
+publictweet() #TO TEST: python motivationalTwitterBot.py
 
 def hashtag(tweetStr):
+
+    # adds #Motivating to tweet if adding it does not exceed 280 characters
 
     newTweet = tweetStr + " #Motivating"
     size = len(newTweet)
@@ -69,5 +72,12 @@ def hashtag(tweetStr):
         return tweetStr
     else: 
         return newTweet
+    
 
-    print(newTweet)
+def createThread(tweet):
+    # if tweet is more than 280 characters it separates it into multiple tweets 
+    # creates a thread by replying to the previous tweet
+    # need to keep track of that tweet id and then reply 
+
+    return tweet
+
