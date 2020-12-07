@@ -1,9 +1,11 @@
 # webScraping.py
 
-# take randomized motivational quotes from website
+# extract randomized motivational quotes from different websites
 
 import requests
 from bs4 import BeautifulSoup
+from random import randrange
+
 
 URL = 'https://sharpquotes.com/positive-quotes/' 
 page = requests.get(URL)
@@ -16,6 +18,7 @@ def getQuote():
     quote_elem = soup.find('article', class_ = 'post-69 post type-post status-publish format-standard hentry category-quotes tag-be-positive tag-be-positive-quotes tag-george-bernard-shaw-quote tag-helen-keller-quote tag-mahatma-gandhi-quote tag-paulo-coelho-quote tag-positive-quotes tag-positive-thinking-quotes tag-positivity-quote tag-winston-churchill-quote tag-zig-ziglar-quote')
     # results = soup.find(id='post-69')
     quotes = quote_elem.find_all('p')
+    random = randrange(3, 102)
 
     print("hi")
     count = 0
@@ -23,58 +26,20 @@ def getQuote():
     for quote in quotes:
         count += 1
         qtext = quote.text
-        print(qtext)
+        if (count == random):
+            tweet = qtext
+        # print(qtext)
     
-    print(count)
+    # get rid of number in the beginning of the quote
+    array = tweet.split(".")
+    for part in array:
+        if (part != array[0]):
+            if (part == array[1]):
+                newTweet = part
+            else:
+                newTweet = newTweet + "." + part
+            tweet = newTweet.strip()
+
+    print("Final Tweet: " + tweet)
 
 getQuote()
-
-# URL = 'https://www.monster.com/jobs/search/?q=Software-Developer&where=Australia'
-# page = requests.get(URL)
-#
-# soup = BeautifulSoup(page.content, 'html.parser')
-#
-# results = soup.find(id='ResultsContainer')
-#
-# job_elems = results.find_all('section', class_='card-content')
-#
-#
-# for job_elem in job_elems:
-#     title_elem = job_elem.find('h2', class_='title')
-#     company_elem = job_elem.find('div', class_='company')
-#     location_elem = job_elem.find('div', class_='location')
-#     if None in (title_elem, company_elem, location_elem):
-#         continue
-#     print(title_elem.text.strip())
-#     print(company_elem.text.strip())
-#     print(location_elem.text.strip())
-#     print()
-
-
-# URL = 'https://www.goodreads.com/quotes/tag/motivation'
-# page = requests.get(URL)
-
-# soup = BeautifulSoup(page.content, 'html.parser')
-
-# # results = soup.find(id='ResultsContainer')
-# def getQuote(): 
-#     leftContainer = soup.find('div', class_='leftContainer')
-
-#     quoteMediumText_elems = leftContainer.find_all('div', class_='quote mediumText')
-
-#     for quote in quoteMediumText_elems:
-#         text_elem = quote.find('div', {'class':'quoteText'})
-#         # neededval = text_elem['#text']
-#         author_elem = quote.find('span', class_='authorOrTitle')
-#         # location_elem = job_elem.find('div', class_='location')
-#         if None in (text_elem, author_elem):
-#             continue
-#         # print(text_elem.text.strip())
-
-#         # print(author_elem.text)
-#         # print(location_elem.text.strip())
-#         tweet = text_elem.text.strip()
-#         print((tweet))
-#         # print()
-    
-#     return tweet
