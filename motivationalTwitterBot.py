@@ -81,7 +81,7 @@ def createThread(tweet):
     # need to keep track of that tweet id and then reply 
 
     length = len(tweet)
-    index = 0
+    index = 273
     count = 1 
     finalCount = math.ceil(length / 274)
 
@@ -89,26 +89,47 @@ def createThread(tweet):
         if (count == 1):
             strCount = "(1/" + str(finalCount) + ") "
             partTweet = tweet[0:273]
-            newTweet = strCount + partTweet 
-            index = 274
-            # api.update_status(newTweet)
-            print(newTweet)
+            if (partTweet[-1] == ' '):
+                newTweet = strCount + partTweet 
+                index = 274
+            else: 
+                while(partTweet[-1] != ' '):
+                    index -= 1
+                    partTweet = tweet[0:index]
+                newTweet = strCount + partTweet 
+
             count += 1
+            api.update_status(newTweet)
+
+        elif (count == finalCount):
+            strCount = "(" + str(count) + "/" + str(finalCount) + ") "
+            partTweet = tweet[index:length]
+            newTweet = strCount + partTweet
+            count += 1
+            tweet = hashtag(newTweet)
+            api.update_status(tweet, getTweetID())
+
         else: 
             strCount = "(" + str(count) + "/" + str(finalCount) + ") "
             newindex = index + 273
             partTweet = tweet[index:newindex]
-            newTweet = strCount + partTweet
-            index = newindex
-            # api.update_status(newTweet, getTweetID())
-            print(newTweet)
+            if (partTweet[-1] == ' '):
+                newTweet = strCount + partTweet 
+                index = newindex
+            else: 
+                while(partTweet[-1] != ' '):
+                    newindex -= 1
+                    partTweet = tweet[index:newindex]
+                
+                index = newindex
+                newTweet = strCount + partTweet
+        
             count += 1
+            api.update_status(newTweet, getTweetID())
 
-    # timeline = api.user_timeline("MotivateBot_")
-    # print(timeline)
-
-    # return tweet
-
+        print(newTweet)
+        # api.update_status(newTweet)
+        
 
 def getTweetID():
     timeline = api.user_timeline("MotivateBot_")
@@ -117,7 +138,7 @@ def getTweetID():
 
 x = "Optimism is strength, pessimism is weakness. Based on which virtue you choose, your life is shaped. Those who chose positive attitude, can make wonder even out of adverse situations. Positivism helps as a booster when you take action. The Secret explains with Law of Attraction, the importance of positive thinking. If you learn to remain positive, you can cope with tough times easily. Your dreams can come true with a positive mindset. Let’s see what the famous people of the world have to say, through below mentioned quotes, about importance of positive thinking and positive attitude."
 print(len(x))
-# # array = x.split("", 1)
+# # array = x.split(" ", 1)
 # for part in array:
 #     print(part)
 # a = "(1/3) "

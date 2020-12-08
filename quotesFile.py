@@ -20,7 +20,10 @@ def getDataCSV():
     quote = datafile.iloc[quoteRow, QUOTE_COL]
     author = datafile.iloc[quoteRow, AUTHOR_COL]
 
-    tweet = quote + " - " + author
+    if (author == ' '):
+        tweet = quote
+    else:
+        tweet = quote + " - " + author
     # print(tweet)
 
     return tweet
