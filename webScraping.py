@@ -20,7 +20,7 @@ def getQuote():
     quotes = quote_elem.find_all('p')
     random = randrange(3, 102)
 
-    print("hi")
+    # print("hi")
     count = 0
 
     for quote in quotes:
@@ -40,6 +40,7 @@ def getQuote():
                 newTweet = newTweet + "." + part
             tweet = newTweet.strip()
 
-    print("Final Tweet: " + tweet)
+    # print("Final Tweet: " + tweet)
+    return tweet
 
-getQuote()
+# getQuote()

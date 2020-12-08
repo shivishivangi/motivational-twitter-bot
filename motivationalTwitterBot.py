@@ -21,6 +21,7 @@
 #NOTE: try to figure out if you can make a thread 
 
 import tweepy
+import math
 import datetime
 
 # need to make this a user input function 
@@ -59,7 +60,7 @@ def publictweet():
 
     print(tweettopublish)
 
-publictweet() #TO TEST: python motivationalTwitterBot.py
+# publictweet() #TO TEST: python motivationalTwitterBot.py
 
 def hashtag(tweetStr):
 
@@ -79,5 +80,46 @@ def createThread(tweet):
     # creates a thread by replying to the previous tweet
     # need to keep track of that tweet id and then reply 
 
-    return tweet
+    length = len(tweet)
+    index = 0
+    count = 1 
+    finalCount = math.ceil(length / 274)
 
+    while (count <= finalCount):
+        if (count == 1):
+            strCount = "(1/" + str(finalCount) + ") "
+            partTweet = tweet[0:273]
+            newTweet = strCount + partTweet 
+            index = 274
+            # api.update_status(newTweet)
+            print(newTweet)
+            count += 1
+        else: 
+            strCount = "(" + str(count) + "/" + str(finalCount) + ") "
+            newindex = index + 273
+            partTweet = tweet[index:newindex]
+            newTweet = strCount + partTweet
+            index = newindex
+            # api.update_status(newTweet, getTweetID())
+            print(newTweet)
+            count += 1
+
+    # timeline = api.user_timeline("MotivateBot_")
+    # print(timeline)
+
+    # return tweet
+
+
+def getTweetID():
+    timeline = api.user_timeline("MotivateBot_")
+    recent = timeline[0].id
+    return recent
+
+x = "Optimism is strength, pessimism is weakness. Based on which virtue you choose, your life is shaped. Those who chose positive attitude, can make wonder even out of adverse situations. Positivism helps as a booster when you take action. The Secret explains with Law of Attraction, the importance of positive thinking. If you learn to remain positive, you can cope with tough times easily. Your dreams can come true with a positive mindset. Let’s see what the famous people of the world have to say, through below mentioned quotes, about importance of positive thinking and positive attitude."
+print(len(x))
+# # array = x.split("", 1)
+# for part in array:
+#     print(part)
+# a = "(1/3) "
+# print(len(a))
+createThread(x)
