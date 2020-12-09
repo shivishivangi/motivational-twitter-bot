@@ -29,8 +29,8 @@ def initializeAPI():
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
 
+
 def publictweet(tweettopublish):
-    global api
 
     try:
         api.update_status(tweettopublish)
@@ -139,7 +139,7 @@ def getTweetID():
     recent = timeline[0].id
     return recent
 
-# x = "Optimism is strength, pessimism is weakness. Based on which virtue you choose, your life is shaped. Those who chose positive attitude, can make wonder even out of adverse situations. Positivism helps as a booster when you take action. The Secret explains with Law of Attraction, the importance of positive thinking. If you learn to remain positive, you can cope with tough times easily. Your dreams can come true with a positive mindset. Let’s see what the famous people of the world have to say, through below mentioned quotes, about importance of positive thinking and positive attitude."
+x = "Optimism is strength, pessimism is weakness. Based on which virtue you choose, your life is shaped. Those who chose positive attitude, can make wonder even out of adverse situations. Positivism helps as a booster when you take action. The Secret explains with Law of Attraction, the importance of positive thinking. If you learn to remain positive, you can cope with tough times easily. Your dreams can come true with a positive mindset. Let’s see what the famous people of the world have to say, through below mentioned quotes, about importance of positive thinking and positive attitude."
 # x = "hi"
 # print(len(x))
 # # array = x.split(" ", 1)
@@ -148,4 +148,5 @@ def getTweetID():
 # a = "(1/3) "
 # print(len(a))
 # publictweet()
-# createThread(x)
+initializeAPI()
+createThread(x)
