@@ -16,8 +16,6 @@ import tweepy
 import math
 import datetime
 
-# api = 0
-
 # need to make this a user input function 
 def initializeAPI():
     global api
@@ -38,8 +36,8 @@ def publictweet(tweettopublish):
         if error.api_code == 187:
             # Do something special
             print('duplicate message')
-    else:
-        raise error
+        else:
+            raise error
 
     # tweettopublish = 'However, before we are able to use the Twitter API end points, we need to create a developer account and generate our API keys. You can apply for a developer account directly here. After answering a few questions on how you plan to use the API and accept the Twitter Developer Agreement, you will be granted access to the Developer Dashboard. Once you are granted access to the dashboard, login to the developer site and create your first App. This step will automatically generate your consumer API keys and access tokens that you should keep secret:'
 
@@ -50,8 +48,21 @@ def publictweet(tweettopublish):
 
     # print(tweettopublish)
 
+def tweetquote(tweettopublish):
+
+    tweettopublish = hashtag(tweettopublish)
+
+    try:
+        api.update_status(tweettopublish)
+    except tweepy.TweepError as error:
+        if error.api_code == 187:
+            # Do something special
+            print('duplicate message')
+        else:
+            raise error
+
 def replytweet(tweettopublish, tweetid):
-    global api
+    # global api
 
     try:
         api.update_status(tweettopublish, tweetid)
@@ -59,8 +70,8 @@ def replytweet(tweettopublish, tweetid):
         if error.api_code == 187:
             # Do something special
             print('duplicate message')
-    else:
-        raise error
+        else:
+            raise error
 
 
 def hashtag(tweetStr):
