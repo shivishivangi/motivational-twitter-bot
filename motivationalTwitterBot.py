@@ -1,66 +1,67 @@
-#print("hi betch")
+# motivationalTwitterBot.py
 
 #NOTES:
 #main.py will utilize these methods 
 
 #   TWEETS:
-#   randomize using web scrapping or the quotes database
 #   add a method that tweets a certain amount of quotes
 #   add a method that schedules tweets throughout the day
-#   add a method that handles creating a tweet thread
-#   add a hastag to the beginning of a quote (#MotivationalQuotes)
 
 #   LIKES AND REPLIES:
 #   like, retweet, and reply to people with the #MotivationalQuotes (make it possible to change this) hashtag
 #   method to like a certain number of random tweets with a certain hashtag
 
-#limitations:
-#  needs to be less than 280 characters
-#  if the tweet allows space, needs to include the hashtag with the category
-
-#NOTE: try to figure out if you can make a thread 
 
 import tweepy
 import math
 import datetime
 
+# api = 0
+
 # need to make this a user input function 
+def initializeAPI():
+    global api
+    consumer_key = 'UAEJdRp7QchFYpCUo5mfYoKpV'
+    consumer_secret = 'Gw2Rz6RQpXwLwmDcQgkaDrfgW6GSjm6G6Z37lXseDnGOpMoRXu'
+    access_token = '1331845784631975937-I6G0229akgSI6glrdaSyqaEeu8UqfX'
+    access_token_secret = 's54y03WQj7zcmWMDgjcwLZrnLVf0KLbXZz8ux4z4A6KVt'
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
+    api = tweepy.API(auth)
 
-consumer_key = 'UAEJdRp7QchFYpCUo5mfYoKpV'
-consumer_secret = 'Gw2Rz6RQpXwLwmDcQgkaDrfgW6GSjm6G6Z37lXseDnGOpMoRXu'
-access_token = '1331845784631975937-I6G0229akgSI6glrdaSyqaEeu8UqfX'
-access_token_secret = 's54y03WQj7zcmWMDgjcwLZrnLVf0KLbXZz8ux4z4A6KVt'
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
-api = tweepy.API(auth)
+def publictweet(tweettopublish):
+    global api
 
-def publictweet():
-    if datetime.date.today().weekday() == 0:
-        tweettopublish = 'Hi everyone, today is Monday.   #Monday '
-    if datetime.date.today().weekday() == 1:
-        tweettopublish = 'Enjoy your Tuesday.  #Tuesday'
-    if datetime.date.today().weekday() == 2:
-        tweettopublish = 'Third week of the Week. #Wednesday'
-    if datetime.date.today().weekday() == 3:
-        tweettopublish = 'Thursday. I cannot wait for the Weekend'
-    if datetime.date.today().weekday() == 4:
-        tweettopublish = 'Friday...Finally'
-        tweettopublish = 'I love you Amulya'
-    if datetime.date.today().weekday() == 5:
-        tweettopublish = 'Great it is Saturday #weekend #Saturday'
-    if datetime.date.today().weekday() == 6:
-        tweettopublish = 'Sunday morning...#Weekend #enjoy '
+    try:
+        api.update_status(tweettopublish)
+    except tweepy.TweepError as error:
+        if error.api_code == 187:
+            # Do something special
+            print('duplicate message')
+    else:
+        raise error
 
-    #tweettopublish = 'However, before we are able to use the Twitter API end points, we need to create a developer account and generate our API keys. You can apply for a developer account directly here. After answering a few questions on how you plan to use the API and accept the Twitter Developer Agreement, you will be granted access to the Developer Dashboard. Once you are granted access to the dashboard, login to the developer site and create your first App. This step will automatically generate your consumer API keys and access tokens that you should keep secret:'
+    # tweettopublish = 'However, before we are able to use the Twitter API end points, we need to create a developer account and generate our API keys. You can apply for a developer account directly here. After answering a few questions on how you plan to use the API and accept the Twitter Developer Agreement, you will be granted access to the Developer Dashboard. Once you are granted access to the dashboard, login to the developer site and create your first App. This step will automatically generate your consumer API keys and access tokens that you should keep secret:'
 
-    print(len(tweettopublish))
+    # print(len(tweettopublish))
 
     # api.update_status(tweettopublish)
-    #uncomment when ready to publish tweet
+    # uncomment when ready to publish tweet
 
-    print(tweettopublish)
+    # print(tweettopublish)
 
-# publictweet() #TO TEST: python motivationalTwitterBot.py
+def replytweet(tweettopublish, tweetid):
+    global api
+
+    try:
+        api.update_status(tweettopublish, tweetid)
+    except tweepy.TweepError as error:
+        if error.api_code == 187:
+            # Do something special
+            print('duplicate message')
+    else:
+        raise error
+
 
 def hashtag(tweetStr):
 
@@ -99,7 +100,8 @@ def createThread(tweet):
                 newTweet = strCount + partTweet 
 
             count += 1
-            api.update_status(newTweet)
+            publictweet(newTweet)
+            # api.update_status(newTweet)
 
         elif (count == finalCount):
             strCount = "(" + str(count) + "/" + str(finalCount) + ") "
@@ -107,7 +109,8 @@ def createThread(tweet):
             newTweet = strCount + partTweet
             count += 1
             tweet = hashtag(newTweet)
-            api.update_status(tweet, getTweetID())
+            replytweet(tweet, getTweetID())
+            # api.update_status(tweet, getTweetID())
 
         else: 
             strCount = "(" + str(count) + "/" + str(finalCount) + ") "
@@ -125,10 +128,10 @@ def createThread(tweet):
                 newTweet = strCount + partTweet
         
             count += 1
-            api.update_status(newTweet, getTweetID())
+            replytweet(newTweet, getTweetID())
+            # api.update_status(newTweet, getTweetID())
 
-        print(newTweet)
-        # api.update_status(newTweet)
+        # print(newTweet)
         
 
 def getTweetID():
@@ -136,11 +139,13 @@ def getTweetID():
     recent = timeline[0].id
     return recent
 
-x = "Optimism is strength, pessimism is weakness. Based on which virtue you choose, your life is shaped. Those who chose positive attitude, can make wonder even out of adverse situations. Positivism helps as a booster when you take action. The Secret explains with Law of Attraction, the importance of positive thinking. If you learn to remain positive, you can cope with tough times easily. Your dreams can come true with a positive mindset. Let’s see what the famous people of the world have to say, through below mentioned quotes, about importance of positive thinking and positive attitude."
-print(len(x))
+# x = "Optimism is strength, pessimism is weakness. Based on which virtue you choose, your life is shaped. Those who chose positive attitude, can make wonder even out of adverse situations. Positivism helps as a booster when you take action. The Secret explains with Law of Attraction, the importance of positive thinking. If you learn to remain positive, you can cope with tough times easily. Your dreams can come true with a positive mindset. Let’s see what the famous people of the world have to say, through below mentioned quotes, about importance of positive thinking and positive attitude."
+# x = "hi"
+# print(len(x))
 # # array = x.split(" ", 1)
 # for part in array:
 #     print(part)
 # a = "(1/3) "
 # print(len(a))
-createThread(x)
+# publictweet()
+# createThread(x)

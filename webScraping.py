@@ -43,4 +43,4 @@ def getQuote():
     # print("Final Tweet: " + tweet)
     return tweet
 
-# getQuote()
+getQuote()
